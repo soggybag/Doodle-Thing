@@ -1,0 +1,48 @@
+#canvas {
+	width:320px; 
+	height:320px; 
+	border:1px 
+	solid black;
+	margin: auto;
+	position: relative;
+}
+
+#loading-gif {
+	position:absolute; 
+	top:150px; 
+	left:50px;
+}
+
+
+#image-feed {
+	
+}
+
+.controls>a {
+	display: block;
+	font-family: Arial;
+	font-size: 16px;
+	text-decoration: none;
+	text-align: center;
+	color: #FFF;
+}
+
+a.clear-button {
+	background: #DD2222;	
+}
+
+a.save-button {
+	background: #22DD22;	
+}
+
+a.marker-button {
+	background: #DDD;
+	color: #222;
+}
+
+a.eraser-button {
+	
+}
+
+
+
