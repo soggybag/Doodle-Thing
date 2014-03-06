@@ -24,7 +24,8 @@
             id,
             username,
             email
-        FROM users
+        FROM 
+        	doodle_users
     ";
     
     try

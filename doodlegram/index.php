@@ -1,72 +1,101 @@
+<?php require("common.php"); ?>
 <!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script src="sketch.js"></script>
-	<script>
-		var sketch;
-		$(function() {
-			$("#loading-gif").hide();
-			sketch = $('#drawing').sketch();
-			$("#save-button").click(function(event){
-				event.preventDefault();
-				submit_drawing();
-			})
-			get_images();
-		});
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+        <meta http-equiv="cleartype" content="on">
+
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/touch/apple-touch-icon-57x57-precomposed.png">
+        <link rel="shortcut icon" sizes="196x196" href="img/touch/touch-icon-196x196.png">
+        <link rel="shortcut icon" href="img/touch/apple-touch-icon.png">
+
+        <!-- Tile icon for Win8 (144x144 + tile color) -->
+        <meta name="msapplication-TileImage" content="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <meta name="msapplication-TileColor" content="#222222">
+
+        <!-- SEO: If mobile URL is different from desktop URL, add a canonical link to the desktop page -->
+        <!--
+        <link rel="canonical" href="http://www.example.com/" >
+        -->
+
+        <!-- Add to homescreen for Chrome on Android -->
+        <!--
+        <meta name="mobile-web-app-capable" content="yes">
+        -->
+
+        <!-- For iOS web apps. Delete if not needed. https://github.com/h5bp/mobile-boilerplate/issues/94 -->
+        <!--
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-title" content="">
+        -->
+
+        <!-- This script prevents links from opening in Mobile Safari. https://gist.github.com/1042026 -->
+        <!--
+        <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
+        -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.7.1.min.js"></script>
+    </head>
+    <body>
+    
+    	<div id="drawing-container">
+			<div id="controls-top" class="controls">
+				<a class="clear-button" href="#">Clear</a>
+				<a class="save-button" id="save-button" href="save.php">Save</a>
+			</div>
+			<div id="canvas">
+				<canvas id="drawing" width="320" height="320"></canvas>
+				<div id="loading-gif">
+					<img src="ajax-loader.gif">
+				</div>
+			</div>
+			<div id="controls-bottom" class="controls">
+				<a class="eraser-button" href="#drawing" data-tool="eraser">Eraser</a>
+				<a class="marker-button" href="#drawing" data-tool="marker">Marker</a>
+			</div>
+		</div>
 		
-		function submit_drawing() {
-			var canvas = document.getElementById( "drawing" );
-			var dataURL = canvas.toDataURL();
-			$("#loading-gif").show();
-			$.post( "save.php", {image: dataURL}, function( data ) {
-				console.log( "Saved filename: " + data );
-				get_images();
-				clear_canvas();
-				$("#loading-gif").hide();
-			});
-		}
 		
-		function get_images() {
-			$.post( "image-feed.php", function(data){
-				// console.log( data );
-				$("#image-feed").html( data );
-			} );
-		}
+		<!-- <form id="form" method="post" type="multipartformdata" action="">
+			<input type="hidden" value="">
+			<input type="submit" value="submit">
+		</form> -->
+	
+		<div id="image-feed">
+	
+		</div>
 		
-		function clear_canvas() {
-			sketch.sketch().actions = [];       // this line empties the actions. 
-			var myCanvas = document.getElementById("drawing");
-			var ctx = myCanvas.getContext('2d');
-			ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-		}
+		<div id="message">
+			<p></p>
+		</div>
 		
-		$('.reset-canvas').click(function(){
-			clear_canvas();
-		});
-	</script>
-</head>
-<body>
-	<div id="canvas" style="width:320px; height:320px; border:1px solid black">
-		<canvas id="drawing" width="320" height="320"></canvas>
-	</div>
-	<a href="#drawing" data-tool="eraser">Eraser</a>
-	<a href="#drawing" data-tool="marker">Marker</a>
-	<!-- <a href="#drawing" data-tool="clear">Clear</a> -->
-	<a id="save-button" href="save.php">Save</a>
+		
+		<!-- ************************************************************* -->
 	
-	<div id="loading-gif" style="position:absolute; top:160px; left:60px">
-		<img src="ajax-loader.gif">
-	</div>
-	<!-- <form id="form" method="post" type="multipartformdata" action="">
-		<input type="hidden" value="">
-		<input type="submit" value="submit">
-	</form> -->
-	
-	<div id="image-feed">
-	
-	</div>
-	
-</body>
+		<script src="js/vendor/jquery-2.1.0.min.js"></script>
+        <script src="js/helper.js"></script>
+        <script src="js/sketch.js"></script>
+        <script src="js/main.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+    </body>
 </html>
